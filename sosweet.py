@@ -8,12 +8,19 @@ auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
 
-def search_tweets(count):
-    queries = ['"this is just to say"', '"so sweet and so cold"', "plums icebox"]
-    q = " OR ".join(queries)+" exclude:retweets"
-    results = api.search(q, result_type="recent", count=count)
-    return results
+class MyStreamListener(tweepy.StreamListener):
 
-results = search_tweets(40)
-for r in results:
-    print(r.id, r.text)
+    def on_status(self, status):
+        if any(q in status.text for q in queries) and status.user.screen_name != "sosweetbot" and status.user.screen_name != "JustToSayBot":
+            # print(status.user, status.text)
+            api.retweet(status.id)
+
+    def on_error(self, status_code):
+        print(status_code)
+        if status_code == 420:
+            return False
+
+queries = ["this is just to say", "so sweet and so cold", "plums icebox", "which you were probably"]
+myStreamListener = MyStreamListener()
+myStream = tweepy.Stream(auth = api.auth, listener=myStreamListener)
+myStream.filter(track=queries)
