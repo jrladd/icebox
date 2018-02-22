@@ -11,7 +11,8 @@ api = tweepy.API(auth)
 class MyStreamListener(tweepy.StreamListener):
 
     def on_status(self, status):
-        if any(q in status.text for q in queries) and status.user.screen_name != "sosweetbot" and status.user.screen_name != "JustToSayBot":
+        test_text = ' '.join(status.text.lower())
+        if any(q in test_text for q in queries) and status.user.screen_name != "sosweetbot" and status.user.screen_name != "JustToSayBot":
             # print(status.user, status.text)
             api.retweet(status.id)
 
