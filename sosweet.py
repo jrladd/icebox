@@ -18,7 +18,7 @@ class MyStreamListener(tweepy.StreamListener):
         """
         When a status is found, filter for the exact phrase and retweet.
         """
-        test_text = ' '.join(status.text.lower())
+        test_text = ' '.join(status.text.lower().split())
         if any(q in test_text for q in queries) and status.user.screen_name != "sosweetbot" and status.user.screen_name != "JustToSayBot":
             # print(status.user, status.text)
             api.retweet(status.id)
@@ -37,3 +37,12 @@ queries = ["this is just to say", "so sweet and so cold", "plums icebox", "which
 myStreamListener = MyStreamListener() # Create class instance
 myStream = tweepy.Stream(auth = api.auth, listener=myStreamListener) # Start stream
 myStream.filter(track=queries) # Listen for queries (case insensitive)
+
+# The code below used for testing the custom tweet filter function
+# class status():
+#      class user():
+#           screen_name = 'johnrladd'
+#      text = 'I have eaten\n\nThe plums\n\nAnd which\n\nyou were probably'
+#
+# status = status()
+# myStreamListener.on_status(status)
