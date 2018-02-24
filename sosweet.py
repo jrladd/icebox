@@ -18,10 +18,13 @@ class MyStreamListener(tweepy.StreamListener):
         """
         When a status is found, filter for the exact phrase and retweet.
         """
-        test_text = ' '.join(status.text.lower().split())
-        if any(q in test_text for q in queries) and status.user.screen_name != "sosweetbot" and status.user.screen_name != "JustToSayBot":
-            # print(status.user, status.text)
-            api.retweet(status.id)
+        if is_wcw(status):
+            try:
+                # print(status.user, status.text)
+                api.retweet(status.id)
+            except tweepy.TweepError, e:
+                print 'Encountered Exception Tweet:', e
+                pass
 
     def on_error(self, status_code):
         """
@@ -33,6 +36,17 @@ class MyStreamListener(tweepy.StreamListener):
 # List relevant queries
 queries = ["this is just to say", "so sweet and so cold", "plums icebox", "which you were probably"]
 
+def is_wcw(status):
+    test_text = ' '.join(status.text.lower().split())
+    usernames = ['sosweetbot', 'JustToSayBot', 'thatisjustplums', 'EatenBot']
+    if status.user.screen_name not in usernames:
+        if any(q in test_text for q in queries):
+            return True
+        elif 'plums' in test_text and 'icebox' in test_text:
+            return True
+        else:
+            return False
+
 # Initialize stream listener
 myStreamListener = MyStreamListener() # Create class instance
 myStream = tweepy.Stream(auth = api.auth, listener=myStreamListener) # Start stream
@@ -42,7 +56,9 @@ myStream.filter(track=queries) # Listen for queries (case insensitive)
 # class status():
 #      class user():
 #           screen_name = 'johnrladd'
-#      text = 'I have eaten\n\nThe plums\n\nAnd which\n\nyou were probably'
-#
+     # text = 'I have eaten\n\nThe plums\n\nAnd which\n\nyou were probably'
+     # text = 'Plums a little, talk a little, plums a little, talk a little, icebox icebox, icebox icebox'
+     # text = 'Totally normal tweet without any reference'
+
 # status = status()
 # myStreamListener.on_status(status)
