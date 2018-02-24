@@ -22,8 +22,7 @@ class MyStreamListener(tweepy.StreamListener):
             try:
                 # print(status.user, status.text)
                 api.retweet(status.id)
-            except tweepy.TweepError, e:
-                print 'Encountered Exception Tweet:', e
+            except tweepy.TweepError:
                 pass
 
     def on_error(self, status_code):
