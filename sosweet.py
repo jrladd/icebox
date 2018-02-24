@@ -46,6 +46,8 @@ def is_wcw(status):
             return True
         else:
             return False
+    else:
+        return False
 
 # Initialize stream listener
 myStreamListener = MyStreamListener() # Create class instance
