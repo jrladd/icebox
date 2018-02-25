@@ -39,7 +39,7 @@ def is_wcw(status):
     test_text = ' '.join(status.text.lower().split())
     usernames = ['sosweetbot', 'JustToSayBot', 'thatisjustplums', 'EatenBot']
     if status.user.screen_name not in usernames:
-        if 'which you were probably' in test_text:
+        if 'which you were probably' in test_text or 'so sweet and so cold' in test_text:
             return True
         elif 'plums' in test_text and 'icebox' in test_text:
             return True
