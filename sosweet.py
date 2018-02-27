@@ -18,7 +18,7 @@ class MyStreamListener(tweepy.StreamListener):
         """
         When a status is found, filter for the exact phrase and retweet.
         """
-        if is_wcw(status):
+        if is_wcw(status): # Use function for testing the phrase
             try:
                 # print(status.user, status.text)
                 api.retweet(status.id)
@@ -36,14 +36,20 @@ class MyStreamListener(tweepy.StreamListener):
 queries = ["this is just to say", "so sweet and so cold", "plums icebox", "which you were probably"]
 
 def is_wcw(status):
-    test_text = ' '.join(status.text.lower().split())
-    usernames = ['sosweetbot', 'JustToSayBot', 'thatisjustplums', 'EatenBot']
+    """
+    Determines whether or not the tweet is a William Carlos Williams parody,
+    using the same list of queries that the streaming API uses.
+    """
+    test_text = ' '.join(status.text.lower().split()) # Remove capital letters and excessive whitespace/linebreaks
+    usernames = ['sosweetbot', 'JustToSayBot', 'thatisjustplums', 'EatenBot'] # Block screen_names of known parody accounts
     if status.user.screen_name not in usernames:
-        if 'which you were probably' in test_text or 'so sweet and so cold' in test_text:
+        if 'which you were probably' in test_text: # Capture parodies of the form
             return True
-        elif 'plums' in test_text and 'icebox' in test_text:
+        elif 'plums' in test_text and 'icebox' in test_text: # Capture parodies of the content
             return True
-        elif 'this is just to say' in test_text and 'that were in' in test_text:
+        elif 'this is just to say' in test_text and 'that were in' in test_text: # Get only relevant instances of "this is just to say"
+            return True
+        elif 'so sweet and so cold' in test_text and 'in the arms of the ocean' not in test_text: # Get 'so sweet and so cold' tweets that aren't quoting Florence and the Machine
             return True
         else:
             return False
