@@ -41,8 +41,8 @@ def is_wcw(status):
     using the same list of queries that the streaming API uses.
     """
     test_text = ' '.join(status.text.lower().split()) # Remove capital letters and excessive whitespace/linebreaks
-    usernames = ['sosweetbot', 'JustToSayBot', 'thatisjustplums', 'EatenBot'] # Block screen_names of known parody accounts
-    if status.user.screen_name not in usernames:
+    usernames = ['sosweetbot', 'JustToSayBot', 'thatisjustplums', 'EatenBot', 'the_niche_bot'] # Block screen_names of known parody accounts
+    if status.user.screen_name not in usernames and all(u not in status.text for u in usernames):
         if 'which you were probably' in test_text: # Capture parodies of the form
             return True
         elif 'plums' in test_text and 'icebox' in test_text: # Capture parodies of the content
