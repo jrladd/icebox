@@ -49,7 +49,7 @@ def is_wcw(status):
             return True
         elif 'this is just to say' in test_text and 'that were in' in test_text: # Get only relevant instances of "this is just to say"
             return True
-        elif 'so sweet and so cold' in test_text and 'in the arms of the ocean' not in test_text: # Get 'so sweet and so cold' tweets that aren't quoting Florence and the Machine
+        elif 'so sweet and so cold' in test_text and 'the arms of the ocean' not in test_text: # Get 'so sweet and so cold' tweets that aren't quoting Florence and the Machine
             return True
         else:
             return False
