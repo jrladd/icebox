@@ -59,7 +59,10 @@ def is_wcw(status):
 # Initialize stream listener
 myStreamListener = MyStreamListener() # Create class instance
 myStream = tweepy.Stream(auth = api.auth, listener=myStreamListener) # Start stream
-myStream.filter(track=queries) # Listen for queries (case insensitive)
+try:
+	myStream.filter(track=queries) # Listen for queries (case insensitive)
+except AttributeError:
+	pass
 
 # The code below used for testing the custom tweet filter function
 # class status():
