@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-from twython import Twython, TwythonStreamer
+from twython import Twython, TwythonStreamer, TwythonError
 from secrets import *
 
 # Initialize twython with relevant secret keys
@@ -15,10 +15,12 @@ class MyStreamListener(TwythonStreamer):
         """
         When a status is found, filter for the exact phrase and retweet.
         """
-        print(status['text'], status['id'])
+        # print(status['text'], status['id'])
         if is_wcw(status): # Use function for testing the phrase
-            # print(status.user, status.text)
-            api.retweet(status['id'])
+            try:
+                api.retweet(id=status['id'])
+            except TwythonError:
+                pass
 
     def on_error(self, status_code, data):
         """
