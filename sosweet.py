@@ -1,48 +1,46 @@
 #! /usr/bin/env python3
 
-import tweepy
+from twython import Twython, TwythonStreamer, TwythonError
 from secrets import *
 
-# Initialize tweepy with relevant secret keys
-auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-auth.set_access_token(access_token, access_token_secret)
+# Initialize twython with relevant secret keys
+api = Twython(consumer_key, consumer_secret, access_token, access_token_secret)
 
-api = tweepy.API(auth)
-
-class MyStreamListener(tweepy.StreamListener):
+class MyStreamListener(TwythonStreamer):
     """
     This class defines how Twitter's streaming API should behave.
     """
 
-    def on_status(self, status):
+    def on_success(self, status):
         """
         When a status is found, filter for the exact phrase and retweet.
         """
+        # print(status['text'], status['id'])
         if is_wcw(status): # Use function for testing the phrase
             try:
-                # print(status.user, status.text)
-                api.retweet(status.id)
-            except tweepy.TweepError:
+                api.retweet(id=status['id'])
+            except TwythonError:
                 pass
 
-    def on_error(self, status_code):
+    def on_error(self, status_code, data):
         """
         When API returns error, keep going unless the error is for rate limit.
         """
         if status_code == 420:
-            return False
+            self.disconnect()
 
 # List relevant queries
 queries = ["this is just to say", "so sweet and so cold", "plums icebox", "which you were probably"]
+queries = ','.join(queries)
 
 def is_wcw(status):
     """
     Determines whether or not the tweet is a William Carlos Williams parody,
     using the same list of queries that the streaming API uses.
     """
-    test_text = ' '.join(status.text.lower().split()) # Remove capital letters and excessive whitespace/linebreaks
+    test_text = ' '.join(status['text'].lower().split()) # Remove capital letters and excessive whitespace/linebreaks
     usernames = ['sosweetbot', 'JustToSayBot', 'thatisjustplums', 'EatenBot', 'the_niche_bot'] # Block screen_names of known parody accounts
-    if status.user.screen_name not in usernames and all(u not in status.text for u in usernames):
+    if status['user']['screen_name'] not in usernames and all(u not in status['text'] for u in usernames):
         if 'which you were probably' in test_text: # Capture parodies of the form
             return True
         elif 'plums' in test_text and 'icebox' in test_text: # Capture parodies of the content
@@ -57,12 +55,8 @@ def is_wcw(status):
         return False
 
 # Initialize stream listener
-myStreamListener = MyStreamListener() # Create class instance
-myStream = tweepy.Stream(auth = api.auth, listener=myStreamListener) # Start stream
-try:
-	myStream.filter(track=queries) # Listen for queries (case insensitive)
-except AttributeError:
-	myStream.filter(track=queries) # Keep listening if it runs into a problem
+stream = MyStreamListener(consumer_key, consumer_secret, access_token, access_token_secret) # Create class instance
+stream.statuses.filter(track=queries) # Listen for queries (case insensitive)
 
 # The code below used for testing the custom tweet filter function
 # class status():
