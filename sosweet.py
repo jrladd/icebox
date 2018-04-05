@@ -62,7 +62,7 @@ myStream = tweepy.Stream(auth = api.auth, listener=myStreamListener) # Start str
 try:
 	myStream.filter(track=queries) # Listen for queries (case insensitive)
 except AttributeError:
-	pass
+	myStream.filter(track=queries) # Keep listening if it runs into a problem
 
 # The code below used for testing the custom tweet filter function
 # class status():
