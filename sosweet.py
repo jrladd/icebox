@@ -56,7 +56,10 @@ def is_wcw(status):
 
 # Initialize stream listener
 stream = MyStreamListener(consumer_key, consumer_secret, access_token, access_token_secret) # Create class instance
-stream.statuses.filter(track=queries) # Listen for queries (case insensitive)
+try:
+	stream.statuses.filter(track=queries) # Listen for queries (case insensitive)
+except:
+	continue
 
 # The code below used for testing the custom tweet filter function
 # class status():
