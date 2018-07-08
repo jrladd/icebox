@@ -30,7 +30,7 @@ class MyStreamListener(TwythonStreamer):
             self.disconnect()
 
 # List relevant queries
-queries = ["this is just to say", "so sweet and so cold", "plums icebox", "which you were probably"]
+queries = ["this is just to say", "so sweet and so cold", "plums icebox", "plums ice box", "plum icebox", "plum ice box", "which you were probably", "William Carlos Williams plums", "William Carlos Williams plum"]
 queries = ','.join(queries)
 
 def is_wcw(status):
@@ -45,7 +45,15 @@ def is_wcw(status):
             return True
         elif 'plums' in test_text and 'icebox' in test_text: # Capture parodies of the content
             return True
-        elif 'plums' in test_text and 'ice box' in test_text:
+        elif 'plum' in test_text and 'icebox' in test_text: # Capture singular 'plum'
+            return True
+        elif 'plums' in test_text and 'ice box' in test_text: #Capture 'ice box' with a space
+            return True
+        elif 'plum' in test_text and 'ice box' in test_text: 
+            return True
+        elif 'William Carlos Williams' in test_text and 'plums' in test_text: #Capture mentions of WCW
+            return True
+        elif 'William Carlos Williams' in test_text and 'plum' in test_text:
             return True
         elif 'this is just to say' in test_text and 'that were in' in test_text: # Get only relevant instances of "this is just to say"
             return True
