@@ -45,6 +45,8 @@ def is_wcw(status):
             return True
         elif 'plums' in test_text and 'icebox' in test_text: # Capture parodies of the content
             return True
+        elif 'plums' in test_text and 'ice box' in test_text:
+            return True
         elif 'this is just to say' in test_text and 'that were in' in test_text: # Get only relevant instances of "this is just to say"
             return True
         elif 'this is just to say' in test_text and 'forgive me' in test_text:
