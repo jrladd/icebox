@@ -51,9 +51,9 @@ def is_wcw(status):
             return True
         elif 'plum' in test_text and 'ice box' in test_text: 
             return True
-        elif 'William Carlos Williams' in test_text and 'plums' in test_text: #Capture mentions of WCW
+        elif 'William Carlos Williams'.lower() in test_text and 'plums' in test_text: #Capture mentions of WCW
             return True
-        elif 'William Carlos Williams' in test_text and 'plum' in test_text:
+        elif 'William Carlos Williams'.lower() in test_text and 'plum' in test_text:
             return True
         elif 'this is just to say' in test_text and 'that were in' in test_text: # Get only relevant instances of "this is just to say"
             return True
@@ -84,6 +84,8 @@ while True:
      # text = 'I have eaten\n\nThe plums\n\nAnd which\n\nyou were probably'
      # text = 'Plums a little, talk a little, plums a little, talk a little, icebox icebox, icebox icebox'
      # text = 'Totally normal tweet without any reference'
+     # text = "I love the plums form Carlos' shop"
+     # text = "a parody of William Carlos William's 'this is just to say'" 
 
 # status = status()
 # myStreamListener.on_status(status)
