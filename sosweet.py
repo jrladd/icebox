@@ -39,7 +39,10 @@ def is_wcw(status):
     using the same list of queries that the streaming API uses.
     """
     test_text = ' '.join(status['text'].lower().split()) # Remove capital letters and excessive whitespace/linebreaks
-    usernames = ['just_to_say_bot', 'thisisjustbot', 'Dcd200S', 'willslostplum', 'sosweetbot', 'JustToSayBot', 'thatisjustplums', 'EatenBot', 'the_niche_bot', 'KristenCostel10', 'litabottal', 'pythonnina', 'alatest5', 'LisaRob96585017','Stilson28400122', 'JohnDun40217560','Cordelia28', 'Rick63556459', 'botsnthings', 'timbot301', 'Rachel53001595'] # Block screen_names of known parody accounts
+    usernames = ['just_to_say_bot', 'thisisjustbot', 'Dcd200S', 'willslostplum', 'sosweetbot', 'JustToSayBot', 'thatisjustplums', \
+		 'EatenBot', 'the_niche_bot', 'KristenCostel10', 'litabottal', 'pythonnina', 'alatest5', 'LisaRob96585017','Stilson28400122', \
+		 'JohnDun40217560','Cordelia28', 'Rick63556459', 'botsnthings', 'timbot301', 'Rachel53001595', 'NicholasMillma6', 'ThisIsJustTo1'\
+		'MayISay4', 'breakfast_plum'] # Block screen_names of known parody accounts
     if status['user']['screen_name'] not in usernames and all(u not in status['text'] for u in usernames):
         if 'which you were probably' in test_text: # Capture parodies of the form
             return True
