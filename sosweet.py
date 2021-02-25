@@ -43,7 +43,7 @@ def is_wcw(status):
 		 'EatenBot', 'the_niche_bot', 'KristenCostel10', 'litabottal', 'pythonnina', 'alatest5', 'LisaRob96585017','Stilson28400122', \
 		 'JohnDun40217560','Cordelia28', 'Rick63556459', 'botsnthings', 'timbot301', 'Rachel53001595', 'NicholasMillma6', 'ThisIsJustTo1'\
 		'MayISay4', 'breakfast_plum', 'BotBot53368932'] # Block screen_names of known parody accounts
-    if status['user']['screen_name'] not in usernames and all(u not in status['text'] for u in usernames) and status['source'] != 'Cheap Bots, Done Quick!':
+    if status['user']['screen_name'] not in usernames and all(u not in status['text'] for u in usernames) and 'Cheap Bots, Done Quick!' not in status['source']:
         if 'which you were probably' in test_text: # Capture parodies of the form
             return True
         elif 'plums' in test_text and 'icebox' in test_text: # Capture parodies of the content
